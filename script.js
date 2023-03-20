@@ -12,7 +12,7 @@ const defeat = document.getElementById("defeat");
 const playAgain = document.getElementById("playAgain");
 const resetButton = document.getElementById("reset");
 
-/* GÉNÉRATION DES CELLULES ET INITIALISATION DE LEUR ÉTAT STATE */ 
+/* INITIALIZATION OF CELLS AND THEIR STATE */ 
 for(let i = 0; i <= 8; i++) {
 
     const cell = document.createElement("div");
@@ -22,8 +22,10 @@ for(let i = 0; i <= 8; i++) {
     states[i] = 0;
 }
 
-console.log(cells);
+// console.log(cells);
 
+
+/* INITIALIZATION OF THE CELL CLICK EVENT */
 for(let i = 0; i <= 8; i++) {
 
     const cell = document.getElementById(`${i}`);
@@ -37,14 +39,22 @@ for(let i = 0; i <= 8; i++) {
         }
 
         console.log(states[i]);
-        cellBackground(i);
-
+        updateCell(i);
+        analyzeGame();
+        computerPlays();
+        updateCell(i);
+        analyzeGame();
     });
-
 }
 
 resetButton.addEventListener("click", function() {
+    reset();
+    console.info("Game has been reset");
+});
 
+function reset() {
+
+    const message = "Newboard!";
     resetClasses(test);
     resetClasses(victory);
     resetClasses(defeat);
@@ -52,22 +62,27 @@ resetButton.addEventListener("click", function() {
 
     for(let i = 0; i <= 8; i++) {
         states[i] = 0;
-        cellBackground(i);
+        updateCell(i);
+        console.info(message[i]);
     }
-});
+    
+}
 
 function resetClasses(element) {
     element.classList.add("hidden");
     element.style.display = "none";
 }
 
-function cellBackground(int) {
+function updateCell(int) {
 
     const cell = document.getElementById(`${int}`);
 
     if(states[int] == 1) {
-        cell.style.backgroundColor = "black";
+        cell.style.backgroundColor = "grey";
         cell.innerHTML = '<div class="player">X</div>';
+    } else if(states[int] == 10){
+        cell.style.backgroundColor = "grey";
+        cell.innerHTML = '<div class="computer">O</div>';
     } else {
         cell.innerHTML = "";
         cell.style.backgroundColor = "white";
@@ -98,14 +113,8 @@ function displayPlayAgainDiv() {
     console.log("Play again ?");
 }
 
-function playNewGame() {
+function endGame(){
 
-}
-
-if(gameOver) {
-
-    console.log(gameOver);
-    console.log(result);
     if(result === true) {
         displayVictoryDiv();
         userScore += 1;
@@ -117,3 +126,44 @@ if(gameOver) {
     displayPlayAgainDiv();
 }
 
+playAgain.addEventListener("click", function() {
+    reset();
+    console.info("You are playing a new game.");
+});
+
+function analyzeGame(){
+    let temp = 0;
+
+    for(i = 0; i<= 8; i++){
+        if(states[i] !== 0) {
+            temp += 1;
+        } 
+
+        if(temp == 9) {
+            gameOver = true;
+            endGame();
+        }
+    }
+}
+
+function computerPlays() {
+
+    attempt = generateAttempt();
+
+    if(states[attempt] == 0) {
+        states[attempt] = 10;
+        const cell = document.getElementById(`${attempt}`);
+        updateCell(attempt);
+        /*
+        cell.style.backgroundColor = "grey";
+        cell.innerHTML = '<div class="computer">O</div>';*/
+    } else {
+        generateAttempt();
+    }
+}
+
+function generateAttempt() {
+    let attempt = Math.floor(Math.random(9) * 10);
+    console.log(Math.floor(Math.random(9) * 10));
+    return attempt;
+}
