@@ -1,10 +1,9 @@
 const cells = [];
 const game = document.querySelector("#game");
 const test = document.getElementById("test");
+const states = [];
+const resetButton = document.getElementById("reset");
 
-let toto = [
-    [0, 0]
-];
 
 for(let i = 0; i <= 8; i++) {
 
@@ -12,32 +11,54 @@ for(let i = 0; i <= 8; i++) {
     cell.setAttribute("id", i);
     game.appendChild(cell);
 
-    cells.push(i);
-    
-    /*
-    toto[i][0].push(i);
-    toto[i][1].push(0);
-    */
+    states[i] = 0;
 }
 
-console.log(toto);
+console.log(cells);
 
 for(let i = 0; i <= 8; i++) {
 
-    const toto = document.getElementById(`${i}`);
+    const cell = document.getElementById(`${i}`);
 
-    toto.addEventListener("click", function() {
-        cell.cell[i].state = 1;
+    cell.addEventListener("click", function() {
+
+        if(states[i] == 0){
+            states[i] += 1;
+        } else {
+            states[i] -= 1;
+        }
+
+        console.log(states[i]);
+        cellBackground(i);
+
     });
-
-    if(cell.cell[i].state == 1) {
-        toto.style.background = "#000000";
-    }
 
 }
 
-const resetButton = document.getElementById("reset");
 resetButton.addEventListener("click", function() {
 
-    test.style.display = "block";
+    for(let i = 0; i <= 8; i++) {
+        states[i] = 0;
+        cellBackground(i);
+    }
 });
+
+
+function cellBackground(int) {
+
+    const cell = document.getElementById(`${int}`);
+
+    if(states[int] == 1) {
+        cell.style.backgroundColor = "black";
+        cell.innerHTML = '<div class="player">X</div>';
+    } else {
+        cell.innerHTML = "";
+        cell.style.backgroundColor = "white";
+    }
+    
+}
+
+function diplayTestDiv() {
+    test.style.display = "block";
+    console.log("Test succeeded !");
+}
