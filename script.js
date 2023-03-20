@@ -77,16 +77,21 @@ function updateCell(int) {
 
     const cell = document.getElementById(`${int}`);
 
+    if(states[int] == 0) {
+        cell.style.backgroundColor = "white";
+        cell.innerHTML = "";
+    } 
+
     if(states[int] == 1) {
         cell.style.backgroundColor = "grey";
         cell.innerHTML = '<div class="player">X</div>';
-    } else if(states[int] == 10){
+    } 
+    
+    if(states[int] == 10){
         cell.style.backgroundColor = "grey";
         cell.innerHTML = '<div class="computer">O</div>';
-    } else {
-        cell.innerHTML = "";
-        cell.style.backgroundColor = "white";
-    }  
+    }
+     
 }
 
 function diplayTestDiv() {
