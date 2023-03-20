@@ -1,10 +1,18 @@
 const cells = [];
-const game = document.querySelector("#game");
+let states = [];
+let userScore = 0;
+let computerScore = 0;
+let gameOver = undefined;
+let result = undefined;
+
+const game = document.getElementById("game");
 const test = document.getElementById("test");
-const states = [];
+const victory = document.getElementById("victory");
+const defeat = document.getElementById("defeat");
+const playAgain = document.getElementById("playAgain");
 const resetButton = document.getElementById("reset");
 
-
+/* GÉNÉRATION DES CELLULES ET INITIALISATION DE LEUR ÉTAT STATE */ 
 for(let i = 0; i <= 8; i++) {
 
     const cell = document.createElement("div");
@@ -37,12 +45,21 @@ for(let i = 0; i <= 8; i++) {
 
 resetButton.addEventListener("click", function() {
 
+    resetClasses(test);
+    resetClasses(victory);
+    resetClasses(defeat);
+    resetClasses(playAgain);
+
     for(let i = 0; i <= 8; i++) {
         states[i] = 0;
         cellBackground(i);
     }
 });
 
+function resetClasses(element) {
+    element.classList.add("hidden");
+    element.style.display = "none";
+}
 
 function cellBackground(int) {
 
@@ -54,11 +71,49 @@ function cellBackground(int) {
     } else {
         cell.innerHTML = "";
         cell.style.backgroundColor = "white";
-    }
-    
+    }  
 }
 
 function diplayTestDiv() {
     test.style.display = "block";
+    victory.classList.remove("hidden");
     console.log("Test succeeded !");
 }
+
+function displayVictoryDiv() {
+    victory.style.display = "block";
+    victory.classList.remove("hidden");
+    console.log("You're the winner !");
+}
+
+function displayDefeatDiv() {
+    defeat.style.display = "block";
+    victory.classList.remove("hidden");
+    console.log("You've lost !");
+}
+
+function displayPlayAgainDiv() {
+    playAgain.style.display = "block";
+    victory.classList.remove("hidden");
+    console.log("Play again ?");
+}
+
+function playNewGame() {
+
+}
+
+if(gameOver) {
+
+    console.log(gameOver);
+    console.log(result);
+    if(result === true) {
+        displayVictoryDiv();
+        userScore += 1;
+    } else {
+        displayDefeatDiv();
+        computerScore += 1;
+    }
+
+    displayPlayAgainDiv();
+}
+
