@@ -169,7 +169,7 @@ function analyzeGame(){
                 return true;
 
             }
-            
+
         } else if (showAvailableCells().length == 0) {
 
             displayTieDiv();
