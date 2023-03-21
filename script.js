@@ -1,7 +1,6 @@
 const cells = [];
 let states = [];
-let userScore = 0;
-let computerScore = 0;
+let score = [0,0];
 let gameOver = undefined;
 let result = undefined;
 
@@ -11,6 +10,8 @@ const victory = document.getElementById("victory");
 const defeat = document.getElementById("defeat");
 const playAgain = document.getElementById("playAgain");
 const resetButton = document.getElementById("reset");
+const playerScore = document.getElementById("playerScore");
+const computerScore = document.getElementById("computerScore");
 
 /* INITIALIZATION OF CELLS AND THEIR STATE */ 
 for(let i = 0; i <= 8; i++) {
@@ -24,6 +25,8 @@ for(let i = 0; i <= 8; i++) {
 
 // console.log(cells);
 
+playerScore.innerHTML = score[0];
+computerScore.innerHTML = score[1];
 
 /* INITIALIZATION OF THE CELL CLICK EVENT */
 for(let i = 0; i <= 8; i++) {
@@ -33,17 +36,15 @@ for(let i = 0; i <= 8; i++) {
     cell.addEventListener("click", function() {
 
         if(states[i] == 0){
-            states[i] += 1;
-        } else {
-            states[i] -= 1;
+
+            states[i] = 1;
+
+            updateCell(i);
+            analyzeGame();
+            computerPlays();
         }
 
-        console.log(states[i]);
-        updateCell(i);
-        analyzeGame();
-        computerPlays();
-        updateCell(i);
-        analyzeGame();
+        
     });
 }
 
@@ -77,55 +78,51 @@ function updateCell(int) {
 
     const cell = document.getElementById(`${int}`);
 
-    if(states[int] == 0) {
-        cell.style.backgroundColor = "white";
-        cell.innerHTML = "";
+    switch(states[int]) {
+        case 1:     
+            cell.style.backgroundColor = "grey";
+            cell.innerHTML = '<div class="player">X</div>';
+            break;
+        case 10:
+            cell.style.backgroundColor = "grey";
+            cell.innerHTML = '<div class="computer">O</div>';
+            break;
+        default:        
+            cell.style.backgroundColor = "white";
+            cell.innerHTML = "";
     } 
-
-    if(states[int] == 1) {
-        cell.style.backgroundColor = "grey";
-        cell.innerHTML = '<div class="player">X</div>';
-    } 
-    
-    if(states[int] == 10){
-        cell.style.backgroundColor = "grey";
-        cell.innerHTML = '<div class="computer">O</div>';
-    }
-     
 }
 
-function diplayTestDiv() {
+function displayTestDiv() {
     test.style.display = "block";
-    victory.classList.remove("hidden");
-    console.log("Test succeeded !");
+    test.classList.remove("hidden");
 }
 
 function displayVictoryDiv() {
     victory.style.display = "block";
     victory.classList.remove("hidden");
-    console.log("You're the winner !");
 }
 
 function displayDefeatDiv() {
     defeat.style.display = "block";
-    victory.classList.remove("hidden");
-    console.log("You've lost !");
+    defeat.classList.remove("hidden");
 }
 
 function displayPlayAgainDiv() {
     playAgain.style.display = "block";
-    victory.classList.remove("hidden");
-    console.log("Play again ?");
+    playAgain.classList.remove("hidden");
 }
 
 function endGame(){
 
     if(result === true) {
         displayVictoryDiv();
-        userScore += 1;
+        score[0] += 1;
+        playerScore.innerHTML = score[0];
     } else {
         displayDefeatDiv();
-        computerScore += 1;
+        score[1] += 1;
+        computerScore.innerHTML = score[1];
     }
 
     displayPlayAgainDiv();
@@ -137,8 +134,9 @@ playAgain.addEventListener("click", function() {
 });
 
 function analyzeGame(){
-    let temp = 0;
 
+    let temp = 0;
+    // If all cells are clicked and no one won, end the game
     for(i = 0; i<= 8; i++){
         if(states[i] !== 0) {
             temp += 1;
@@ -153,22 +151,20 @@ function analyzeGame(){
 
 function computerPlays() {
 
-    attempt = generateAttempt();
+    let attempt = generateAttempt();
 
     if(states[attempt] == 0) {
-        states[attempt] = 10;
-        const cell = document.getElementById(`${attempt}`);
+        states[attempt] += 10;
         updateCell(attempt);
-        /*
-        cell.style.backgroundColor = "grey";
-        cell.innerHTML = '<div class="computer">O</div>';*/
+        analyzeGame();
     } else {
         generateAttempt();
     }
+
+    
 }
 
 function generateAttempt() {
-    let attempt = Math.floor(Math.random(9) * 10);
-    console.log(Math.floor(Math.random(9) * 10));
-    return attempt;
+
+   return Math.floor(Math.random() * 9);
 }

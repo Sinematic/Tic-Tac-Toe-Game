@@ -126,3 +126,33 @@ h1 {
     justify-content: center;
     align-items: center;
 }
+
+#score {
+    background-color: white;
+    font-size: 32px;
+    padding: 10px;
+    width: fit-content;
+    border-radius: 25px;
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    gap: 8px;
+}
+
+#playerScore, #computerScore {
+    padding: 15px 10px 15px 10px;
+    background-color: rgba(229, 229, 229, 0.921);
+    font-weight: 700;
+}
+
+#playerScore {
+    border-radius: 20px 0px 0px 20px;
+}
+
+#computerScore {
+    border-radius: 0px 20px 20px 0px;
+}
+
+#scoreSentence {
+    font-size: 24px;
+    align-self: center;
+}
