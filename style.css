@@ -105,6 +105,13 @@ div {
     top: 45%;
 }
 
+
+#even {
+    color: purple;
+    border: 2px solid purple;
+    background-color: pink;
+}
+
 .player {
     color: blueviolet;
 }
