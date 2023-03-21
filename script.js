@@ -2,6 +2,7 @@ let states = [];
 let humanScore = 0;
 let fakeHumanScore = 0;
 let gameOver = false;
+let gameInProgress = true;
 
 const game = document.getElementById("game");
 const test = document.getElementById("test");
@@ -40,23 +41,21 @@ for(let i = 0; i <= 8; i++) {
 
     cell.addEventListener("click", function() {
 
-        if(states[i] === 0){
+        if(states[i] === 0 && gameInProgress){
 
             states[i] = 1;
-
             updateCell(i);
 
             if(analyzeGame()) {
 
                 analyzeGame();
+                gameInProgress = false;
 
             } else {
                 computerPlays();
                 analyzeGame();
             }
-        }
-
-        
+        }     
     });
 }
 
@@ -76,20 +75,16 @@ function reset() {
     resetClasses(playAgain);
     resetClasses(even);
 
+
     for(let i = 0; i <= 8; i++) {
+        document.getElementById(i).style.backgroundColor = "rgb(225, 225, 225)";
         states[i] = 0;
         updateCell(i);
     }
 
     gameOver = false;
-
+    gameInProgress = true;
 }
-
-    for(let i = 0; i <= 8; i++) {
-        states[i] = 0;
-        updateCell(i);
-    }
-
 
 function resetClasses(element) {
     element.classList.add("hidden");
@@ -101,16 +96,13 @@ function updateCell(int) {
     const cell = document.getElementById(`${int}`);
 
     switch(states[int]) {
-        case 1:     
-            cell.style.backgroundColor = "grey";
+        case 1:
             cell.innerHTML = '<div class="player">X</div>';
             break;
         case 10:
-            cell.style.backgroundColor = "grey";
             cell.innerHTML = '<div class="computer">O</div>';
             break;
-        case 0:        
-            cell.style.backgroundColor = "white";
+        case 0:
             cell.innerHTML = "";
             break;
         default:
@@ -161,16 +153,26 @@ function analyzeGame(){
 
             let sum = states[combos[i][0]] + states[combos[i][1]] + states[combos[i][2]];
 
-            if(sum === 30) {
-                manageScore("computer");
-                displayDefeatDiv();
+
+            if(sum === 30 || sum === 3) {
+                console.log(i);
+                colorLine(i);
                 displayPlayAgainDiv();
-            } else if(sum === 3) {
-                manageScore("player");
-                displayVictoryDiv();
-                displayPlayAgainDiv();
-                return true;
-            }     
+                gameInProgress = false;
+
+                if(sum === 30) {
+
+                    manageScore("computer");
+                    displayDefeatDiv();
+    
+                } else if(sum === 3) {
+    
+                    manageScore("player");
+                    displayVictoryDiv();
+                    return true;
+                }
+            }
+            
         }
 
     } else {
@@ -222,4 +224,12 @@ function manageScore(string) {
     }
 
     displayScore();
+}
+
+function colorLine(index) {
+
+    for(let i = 0; i <= 2; i++) {
+
+        document.getElementById(combos[index][i]).style.backgroundColor = "gold";
+    }  
 }
