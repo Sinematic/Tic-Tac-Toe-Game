@@ -51,16 +51,12 @@ h1 {
     background-color: lavender;
 }
 
-#options {
-    width: 100%;
-    padding-top: 60px;
-    margin: auto;
-    display: flex;
+div {
+    margin: 0;
 }
 
 #reset {
     margin: auto;
-    justify-content: center;
     padding: 12px 15px 12px 15px;
     border: 2px solid lavender;
     background-color: white;
@@ -136,6 +132,9 @@ h1 {
     display: grid;
     grid-template-columns: repeat(3, auto);
     gap: 8px;
+    margin: 0;
+    margin-right: 30px;
+    margin-left: 170px;
 }
 
 #playerScore, #computerScore {
@@ -156,3 +155,12 @@ h1 {
     font-size: 24px;
     align-self: center;
 }
+
+#alt {
+    padding-top: 30px;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+    align-items: center;
+}
+
