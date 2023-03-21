@@ -13,7 +13,7 @@ The code could be improved and I'm willing to do so. I'm still learning the basi
 
 Checkout the different scenarios below :
 
-- This is what it looks with extremely basic CSS : 
+- This is what it looks like with extremely basic CSS : 
 
 ![game](images/game.png)
 
