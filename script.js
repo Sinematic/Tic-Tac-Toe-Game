@@ -9,7 +9,7 @@ const test = document.getElementById("test");
 const victory = document.getElementById("victory");
 const defeat = document.getElementById("defeat");
 const playAgain = document.getElementById("playAgain");
-const even = document.getElementById("even");
+const tie = document.getElementById("tie");
 const resetButton = document.getElementById("reset");
 const playerScore = document.getElementById("playerScore");
 const computerScore = document.getElementById("computerScore");
@@ -47,7 +47,7 @@ for(let i = 0; i <= 8; i++) {
             updateCell(i);
 
             if(analyzeGame()) {
-                
+
                 gameInProgress = false;
 
             } else {
@@ -72,7 +72,7 @@ function reset() {
     resetClasses(victory);
     resetClasses(defeat);
     resetClasses(playAgain);
-    resetClasses(even);
+    resetClasses(tie);
 
 
     for(let i = 0; i <= 8; i++) {
@@ -130,9 +130,9 @@ function displayPlayAgainDiv() {
     playAgain.classList.remove("hidden");
 }
 
-function displayEvenDiv() {
-    even.style.display = "block";
-    even.classList.remove("hidden");
+function displayTieDiv() {
+    tie.style.display = "block";
+    tie.classList.remove("hidden");
 }
 
 function displayScore() {
@@ -168,11 +168,12 @@ function analyzeGame(){
                 displayVictoryDiv();
                 return true;
 
-            } else if (showAvailableCells().length == 0) {
-
-                displayEvenDiv();
-                displayPlayAgainDiv();
             }
+            
+        } else if (showAvailableCells().length == 0) {
+
+            displayTieDiv();
+            displayPlayAgainDiv();
         }
     }
 }  
