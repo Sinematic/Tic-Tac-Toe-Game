@@ -13,6 +13,11 @@ const resetButton = document.getElementById("reset");
 const playerScore = document.getElementById("playerScore");
 const computerScore = document.getElementById("computerScore");
 
+const combos = [
+    [0, 1, 2], [3, 4, 5], [6, 7, 8], 
+    [0, 3, 6], [1, 4, 7], [2, 5, 8],
+    [0, 4, 8], [2, 4, 6]];
+
 /* INITIALIZATION OF CELLS AND THEIR STATE */ 
 for(let i = 0; i <= 8; i++) {
 
@@ -113,9 +118,9 @@ function displayPlayAgainDiv() {
     playAgain.classList.remove("hidden");
 }
 
-function endGame(){
+function endGame(bool){
 
-    if(result === true) {
+    if(bool === true) {
         displayVictoryDiv();
         score[0] += 1;
         playerScore.innerHTML = score[0];
@@ -135,8 +140,23 @@ playAgain.addEventListener("click", function() {
 
 function analyzeGame(){
 
-    let temp = 0;
-    // If all cells are clicked and no one won, end the game
+    for(i = 0; i <= 7; i++) {
+
+        let sum = states[combos[i][0]] + states[combos[i][1]] + states[combos[i][2]];
+
+        console.log("Voici la somme :" + sum);
+       
+        if(sum == 30) {
+            result = false;
+            endGame(result);
+        } else if(sum == 3) {
+            result = true;
+            endGame(result);
+        }
+    }
+    
+    let temp = 0; // If there are no available cells, the game ends
+
     for(i = 0; i<= 8; i++){
         if(states[i] !== 0) {
             temp += 1;
@@ -153,15 +173,13 @@ function computerPlays() {
 
     let attempt = generateAttempt();
 
-    if(states[attempt] == 0) {
+    if(states[attempt] !== 0) {
+        generateAttempt();
+    } else {
         states[attempt] += 10;
         updateCell(attempt);
         analyzeGame();
-    } else {
-        generateAttempt();
     }
-
-    
 }
 
 function generateAttempt() {
