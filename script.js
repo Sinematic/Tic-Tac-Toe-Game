@@ -47,8 +47,7 @@ for(let i = 0; i <= 8; i++) {
             updateCell(i);
 
             if(analyzeGame()) {
-
-                analyzeGame();
+                
                 gameInProgress = false;
 
             } else {
@@ -147,39 +146,35 @@ playAgain.addEventListener("click", function() {
 
 function analyzeGame(){
 
-    if(showAvailableCells().length !== 0) {
+    for(let i = 0; i <= 7; i++) {
 
-        for(let i = 0; i <= 7; i++) {
+        let sum = states[combos[i][0]] + states[combos[i][1]] + states[combos[i][2]];
 
-            let sum = states[combos[i][0]] + states[combos[i][1]] + states[combos[i][2]];
+        if(sum === 30 || sum === 3) {
 
+            console.log(i);
+            colorLine(i);
+            displayPlayAgainDiv();
+            gameInProgress = false;
 
-            if(sum === 30 || sum === 3) {
-                console.log(i);
-                colorLine(i);
+            if(sum === 30) {
+
+                manageScore("computer");
+                displayDefeatDiv();
+    
+            } else if(sum === 3) {
+    
+                manageScore("player");
+                displayVictoryDiv();
+                return true;
+
+            } else if (showAvailableCells().length == 0) {
+
+                displayEvenDiv();
                 displayPlayAgainDiv();
-                gameInProgress = false;
-
-                if(sum === 30) {
-
-                    manageScore("computer");
-                    displayDefeatDiv();
-    
-                } else if(sum === 3) {
-    
-                    manageScore("player");
-                    displayVictoryDiv();
-                    return true;
-                }
             }
-            
         }
-
-    } else {
-
-        displayEvenDiv();
-        displayPlayAgainDiv();
-    }  
+    }
 }  
 
 function showAvailableCells() {
