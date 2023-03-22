@@ -28,3 +28,7 @@ Checkout the different scenarios below :
 - Tie !
 
 ![tie](images/tie.png)
+
+- Test ? You won't see it !  Unless you call displayTestDiv();
+
+![test](images/test.png)
